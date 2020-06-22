@@ -1,0 +1,22 @@
+{
+  "name": "ftp-client",
+  "version": "1.0.0",
+  "description": "basic node.js ftp client for personally hosted ftp server",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/JakeMeistet/ftp-client.git"
+  },
+  "author": "Jake Bailey",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/JakeMeistet/ftp-client/issues"
+  },
+  "homepage": "https://github.com/JakeMeistet/ftp-client#readme",
+  "dependencies": {
+    "ftp": "^0.3.10"
+  }
+}
