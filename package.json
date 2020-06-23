@@ -17,6 +17,7 @@
   },
   "homepage": "https://github.com/JakeMeistet/ftp-client#readme",
   "dependencies": {
-    "ftp": "^0.3.10"
+    "ftp": "^0.3.10",
+    "readline-sync": "^1.4.10"
   }
 }
