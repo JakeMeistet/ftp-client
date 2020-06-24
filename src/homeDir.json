@@ -1,0 +1,1 @@
+[{"type":"d","name":"jake","sticky":false,"rights":{"user":"rwx","group":"rwx","other":"rwx"},"acl":false,"owner":"1001","group":"1001","size":4096,"date":"2020-06-18T16:00:00.000Z"},{"type":"d","name":"test_user","sticky":false,"rights":{"user":"rwx","group":"rwx","other":"rwx"},"acl":false,"owner":"1002","group":"1002","size":4096,"date":"2020-06-18T08:13:00.000Z"}]
