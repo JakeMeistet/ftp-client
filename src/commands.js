@@ -2,8 +2,8 @@ const directories = require('./directories')
 const fs = require('fs')
 const readLine = require('readline-sync')
 
-const cd = (client, currentDir) => {
-    directories.getListing(currentDir)  
+module.exports.cd = async (client, currentDir) => {
+    directories.getListing(currentDir)
     var directory = readLine.question('Enter the directory listed above:')      
     client.list(directory, (err, list) => {
         if (err) throw err
@@ -14,8 +14,4 @@ const cd = (client, currentDir) => {
         //console.log(currentDir)                                    
     });
     return currentDir
-}
-
-module.exports = {
-    cd:cd
 }

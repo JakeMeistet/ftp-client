@@ -1,11 +1,14 @@
 const fs = require('fs');
 const { fileURLToPath } = require('url');
 
-const getListing =(currentDir) => { // Get Listing function used to 
+module.exports.getListing = (currentDir) => { // Get Listing function used to 
 
     const home = loadJSON(currentDir); // Takes currentDir variable and passes it through loadJSON function
     var i
     let listing = [] // Array used to store directory details which are later logged and returned
+    console.log('Directiory name: ..')
+    console.log('Directiory name: .')
+    console.log('Directiory name: /')
     for (i = 0; i <= length(home)-1; i++) { // Repeats checks for type e.g. directory, file etc
       
         listing[i,1] = home[i].name
@@ -25,18 +28,10 @@ function length(obj) { // Funciton length used to return the length of
     return Object.keys(obj).length;
 }
 
-const loadJSON = (currentDir) => { // LoadJSON function used to read a JSON file and parse it, then returning data var 
-
+const loadJSON = (currentDir) => {
     try {
-        const readJSON = fs.readFileSync(currentDir, 'utf-8')
-        var data = JSON.parse(readJSON)
-        return data
-
+        return JSON.parse(fs.readFileSync(currentDir, 'utf-8'))
     } catch (err) {
         return []
     }
-}
-
-module.exports = { //Exports getListing function to be used in index.js and other files
-    getListing: getListing
 }
