@@ -3,6 +3,7 @@ const Client = require('ftp')
 const readLine = require('readline-sync')
 const fs = require('fs')
 const directories = require('./src/directories') // Imports directories.js file to for handling of JSON files 
+const commands = require('./src/commands')
 
 // Relevant information e.g. hostname/ip, port and username gathered from the user and stored in the relevant variables
 var host = readLine.question('Enter the hostname/ip of your FTP server: ')
@@ -27,36 +28,24 @@ client.on('ready', function() {
         var dir = JSON.stringify(list) // Takes directory listing and converts the to string and assigns it to var 'dir'
         fs.writeFileSync('./src/homeDir.json', dir, (err) => {if (err) throw err}) // Creates(or overwrites) homeDir.json file and writes var 'dir' to the file    
     });
-
+    
     var terminate = false
-    while (terminate === false) {
+    do {
         console.log("Available actions: 'cd', 'mkdir', ....., 'end'")
         var action = readLine.question('Action: ')
-        console.log(action.toLowerCase())
-        
+    
         switch (action.toLowerCase()) {
-            case 'cd':               
-                directories.getListing(currentDir)  
-                var directory = readLine.question('Enter the directory listed above:')      
-                client.list(directory, (err, list) => {
-                    if (err) throw err
-                    var dir = JSON.stringify(list)       
-                    fs.writeFileSync('./currentDir.json', dir, (err) => {if (err) throw err})
-                    currentDir = './currentDir.json'
-                    directories.getListing(currentDir) 
-                    console.log(currentDir)                              
-                });
-                console.log(currentDir)
+            case 'cd':   
+                currentDir = commands.cd(client, currentDir)
                 break;
             case 'end':
-                terminate = true 
-                break; 
-            }
+                terminate = true   
+                break;       
+            } 
     }
+    while(terminate === false);
     client.end()
-
-    
-});
+    });
 
 
 // Connects the client session to the specific FTP/FTPS server
