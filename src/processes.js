@@ -7,7 +7,6 @@ const linearSearch = (search, directory) => {
         }
     }
     return exists
-
 }
 
 const length = (obj) => { // Funciton length used to return the length of 
