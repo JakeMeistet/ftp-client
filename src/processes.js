@@ -1,4 +1,4 @@
-module.exports.linearSearch = (search, directory) => {
+const linearSearch = (search, directory) => {
     var exists = false
     for (i = 0; i <= length(search) - 1; i++) {
         if (search[i] === directory) {
@@ -10,6 +10,11 @@ module.exports.linearSearch = (search, directory) => {
 
 }
 
-function length(obj) { // Funciton length used to return the length of 
+const length = (obj) => { // Funciton length used to return the length of 
     return Object.keys(obj).length;
+}
+
+module.exports = {
+    linearSearch:linearSearch,
+    length:length
 }

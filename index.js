@@ -1,10 +1,7 @@
 // Imports required packages for FTP client
 const ftp = require('basic-ftp')
 const readLine = require('readline-sync')
-const fs = require('fs')
-const processes = require('./src/processes')
-const util = require('./src/util');
-const { dir } = require('console')
+const commands = require('./src/commands')
 
 newClient()
 
@@ -52,28 +49,10 @@ async function newClient() {
 
         switch (actionBreakdown[0].toLowerCase()) {
             case 'cd':   
-                if (actionBreakdown[1] === '/') {
-                    currentDirStr = '/'
-                } else if (actionBreakdown[1] === '../') {
-                    var split = currentDirStr.split('/')
-                    let splitArr = split
-                    var len = length(split) - 1
-                    for (i = 0; i <= len - 2; i++) {
-                        if (splitArr[i] === '') splitArr[i] = '/'
-                        currentDirStr = '' + splitArr[i]
-                        console.log(currentDirStr)
-                    }
-                } else {
-                    let search = []
-                    for (i = 0; i <= length(currentDir) - 1; i++) {
-                        search[i] = currentDir[i].name
-                    }
-                    var linear = processes.linearSearch(search, actionBreakdown[1])
-                    if (linear === true) currentDirStr = currentDirStr + actionBreakdown[1] + '/'        
-                    console.log(currentDirStr)
-                }
+                var currentDirStr = await commands.cd(actionBreakdown, currentDirStr, currentDir)
                 currentDir = await client.list(currentDirStr)
                 break;
+                
             case 'end':
                 terminate = true
                 break;
@@ -82,9 +61,3 @@ async function newClient() {
     while(terminate === false);
     await client.close()
 }
-
-function length(obj) { // Funciton length used to return the length of 
-    return Object.keys(obj).length;
-}
-
-
