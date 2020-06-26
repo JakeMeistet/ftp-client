@@ -19,8 +19,6 @@ async function newClient() {
     var tls = readLine.question('Does the FTP server use TLS/SSL encryption? Y/n? ')
     var currentDirStr = '/'
 
-
-
     if (tls = 'Y','y') {
         var tlsbool = true
     }else {
@@ -40,26 +38,23 @@ async function newClient() {
     })
 
     var listing = await client.list()
-
-    //if (err) { console.log (`An unexpected error occured ${err}`); throw err } 
-
-    //fs.writeFileSync('./src/currentDir.json', JSON.stringify(listing, false, 2)) // Creates(or overwrites) homeDir.json file and writes var 'dir' to the file  
-    //var currentDir = './src/currentDir.json'
     let currentDir = {}
-    
     currentDir = listing
     var terminate = false
+
     do {
         //console.log(`Current direcory: ${currentDir}`);
-        console.log("Available actions: 'cd', 'mkdir', ....., 'end'")
+        console.log("Available actions: 'cd <directory>', 'mkdir', ....., 'end'")
         var action = readLine.question('Action: ')
         
-        switch (action.toLowerCase()) {
+        var actionBreakdown = action.split(' ')
+        console.log(actionBreakdown[1])
+
+        switch (actionBreakdown[0].toLowerCase()) {
             case 'cd':   
-                var directory = readLine.question('Enter the directory listed above:')
-                if (directory === '/') {
+                if (actionBreakdown[1] === '/') {
                     currentDirStr = '/'
-                } else if (directory === '../') {
+                } else if (actionBreakdown[1] === '../') {
                     var split = currentDirStr.split('/')
                     let splitArr = split
                     var len = length(split) - 1
@@ -73,8 +68,8 @@ async function newClient() {
                     for (i = 0; i <= length(currentDir) - 1; i++) {
                         search[i] = currentDir[i].name
                     }
-                    var linear = processes.linearSearch(search, directory)
-                    if (linear === true) currentDirStr = currentDirStr + directory + '/'        
+                    var linear = processes.linearSearch(search, actionBreakdown[1])
+                    if (linear === true) currentDirStr = currentDirStr + actionBreakdown[1] + '/'        
                     console.log(currentDirStr)
                 }
                 currentDir = await client.list(currentDirStr)
