@@ -39,3 +39,10 @@ module.exports.cd = async (actionBreakdown, currentDirStr, currentDir) => {
 
     return currentDirStr
 }
+
+module.exports.dl = async (actionBreakdown, currentDirStr, currentDir, client) => {
+    var file = currentDirStr + actionBreakdown[1]
+    console.log(file)
+    console.log(actionBreakdown[2])
+    await client.downloadToDir(actionBreakdown[2], file)
+}

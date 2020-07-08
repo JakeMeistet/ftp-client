@@ -3,17 +3,19 @@ const ftp = require('basic-ftp')
 const readLine = require('readline-sync')
 const commands = require('./src/commands')
 
+// const login = () => {
+        // Relevant information e.g. hostname/ip, port and username gathered from the user and stored in the relevant variables
+var host = readLine.question('Enter the hostname/ip of your FTP server: ')
+var port = readLine.questionInt('Enter the port: ')
+var user = readLine.question("Enter your username for '" + host + "': ")
+var password = readLine.question("Enter your password for '" + host + "': ")
+var tls = readLine.question('Does the FTP server use TLS/SSL encryption? Y/n? ')
 newClient()
+// }
 
 // New client instance for connection to FTP Server
 async function newClient() {
-
-    // Relevant information e.g. hostname/ip, port and username gathered from the user and stored in the relevant variables
-    var host = readLine.question('Enter the hostname/ip of your FTP server: ')
-    var port = readLine.questionInt('Enter the port: ')
-    var user = readLine.question("Enter your username for '" + host + "': ")
-    var password = readLine.question("Enter your password for '" + host + "': ")
-    var tls = readLine.question('Does the FTP server use TLS/SSL encryption? Y/n? ')
+    
     var currentDirStr = '/'
 
     if (tls = 'Y','y') {
@@ -51,6 +53,11 @@ async function newClient() {
             case 'cd':   
                 var currentDirStr = await commands.cd(actionBreakdown, currentDirStr, currentDir)
                 currentDir = await client.list(currentDirStr)
+                await client.cd(currentDirStr)
+                break;
+
+            case 'dl':
+                commands.dl(actionBreakdown, currentDirStr, currentDir, client)    
                 break;
                 
             case 'end':
