@@ -10,8 +10,8 @@ var port = readLine.questionInt('Enter the port: ')
 var user = readLine.question("Enter your username for '" + host + "': ")
 var password = readLine.question("Enter your password for '" + host + "': ")
 var tls = readLine.question('Does the FTP server use TLS/SSL encryption? Y/n? ')
-newClient()
-// }
+
+newClient(timeout = 30000)
 
 // New client instance for connection to FTP Server
 async function newClient() {
@@ -53,16 +53,18 @@ async function newClient() {
             case 'cd':   
                 var currentDirStr = await commands.cd(actionBreakdown, currentDirStr, currentDir)
                 currentDir = await client.list(currentDirStr)
+                console.log(currentDir)
                 await client.cd(currentDirStr)
                 break;
 
             case 'dl':
                 commands.dl(actionBreakdown, currentDirStr, currentDir, client)    
                 break;
-                
+
             case 'end':
                 terminate = true
                 break;
+                client.close()
             } 
     }
     while(terminate === false);

@@ -1,12 +1,15 @@
 const linearSearch = (search, directory) => {
-    var exists = false
+    let existsArr = []
+    existsArr[0] = false
+    //var exists = false
     for (i = 0; i <= length(search) - 1; i++) {
         if (search[i] === directory) {
-            exists = true
+            existsArr[0] = true
+            existsArr[1] = i
             break;
         }
     }
-    return exists
+    return existsArr
 }
 
 const length = (obj) => { // Funciton length used to return the length of 

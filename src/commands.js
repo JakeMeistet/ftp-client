@@ -1,4 +1,5 @@
 const processes = require('./processes')
+const readLine = require('readline-sync')
 
 module.exports.cd = async (actionBreakdown, currentDirStr, currentDir) => {
     if (actionBreakdown[1] === '/') {
@@ -32,8 +33,8 @@ module.exports.cd = async (actionBreakdown, currentDirStr, currentDir) => {
         for (i = 0; i <= processes.length(currentDir) - 1; i++) {
             search[i] = currentDir[i].name
         }
-        var linear = processes.linearSearch(search, actionBreakdown[1])
-        if (linear === true) currentDirStr = currentDirStr + actionBreakdown[1] + '/'        
+        let linear = processes.linearSearch(search, actionBreakdown[1])
+        if (linear[0] === true) currentDirStr = currentDirStr + actionBreakdown[1] + '/'        
         console.log(currentDirStr)
     }
 
@@ -41,8 +42,29 @@ module.exports.cd = async (actionBreakdown, currentDirStr, currentDir) => {
 }
 
 module.exports.dl = async (actionBreakdown, currentDirStr, currentDir, client) => {
+    
+    // Log progress for any transfer from now on.
+    client.trackProgress(info => {
+        console.log("File", info.name)
+        console.log("Type", info.type)
+        console.log("Transferred", info.bytes)
+        console.log("Transferred Overall", info.bytesOverall)
+    })
+
+
+    let search = []
+    for (i = 0; i <= processes.length(currentDir) - 1; i++) {
+        search[i] = currentDir[i].name
+    }
+    let linear = processes.linearSearch(search, actionBreakdown[1])
+
     var file = currentDirStr + actionBreakdown[1]
-    console.log(file)
-    console.log(actionBreakdown[2])
-    await client.downloadToDir(actionBreakdown[2], file)
+    var dl = actionBreakdown[2] + '/' + actionBreakdown[1]
+
+    if (linear[0] === true) {
+        client.trackProgress(info => console.log(info.bytesOverall))
+        await client.downloadTo(dl, actionBreakdown[1])
+        client.trackProgress()
+    }
+    
 }
